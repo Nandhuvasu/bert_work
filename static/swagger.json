@@ -1,0 +1,108 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Provides BERT vector for a sentence",
+      "version": "1.0.0",
+      "title": "Multi-lingual BERT vectorizer"
+    },
+    "paths": {
+      "/v1/vectorizer": {
+        "post": {
+          "tags": [
+            "Vectors"
+          ],
+          "summary": "Returns an array of vectors given an array of strings",
+          "parameters": [
+            {
+                "in": "query",
+                "name": "layer",
+                "description": "what layer to get the vector from",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "description": "An array of text to be converted to vectors",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "model_version": {
+                        "description": "What model was used to produce the vectors",
+                        "type": "string"
+                      },
+                      "took": {
+                        "description": "How long in miliseconds the request took",
+                        "type": "string"
+                      },
+                      "vectors": {
+                        "description": "An array of vectors that correspond 1 to 1 with how they were requested",
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "format": "float"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request data."
+            },
+            "500": {
+              "description": "Something really bad happened and we need to look at the logs"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Vector": {
+          "type": "object",
+          "properties": {
+            "vector": {
+              "description": "Vector of content for which related content is needed",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          },
+          "required": [
+            "vector"
+          ]
+        }
+      }
+    }
+  }
+  
