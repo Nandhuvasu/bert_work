@@ -60,4 +60,5 @@ instance/
 # pyenv
 .python-version
 
-
+# Except
+!bert/models/.keep
